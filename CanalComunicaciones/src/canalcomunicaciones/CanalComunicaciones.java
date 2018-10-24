@@ -3,59 +3,42 @@ import java.io.*;
 import java.util.Random;
 
 
-/**
- *
- * @author gseno
- */
+
 public class CanalComunicaciones {
 
-    /**
-     * @param args the command line arguments
-     */
+public static Double PROB_ERR = 0.5;
+public static int TAM_BYTE = 8;
+
     public static void main(String[] args) throws IOException{
+        int[] b = new int[TAM_BYTE];
         
-       String holla;
-       int opt;
-       
-       InputStream is = System.in;
-       OutputStream os = System.out;
-       byte[] buffer = new byte[64];
-       int nb;
-       
-       ByteArrayOutputStream baos = new ByteArrayOutputStream();
-       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));       
-
-        System.out.println("\nEscriba: \n");
-
-        while(is.available()>0){
-                
-            nb = is.read();
-            //nb = is.read(buffer);
-                if(nb>0){
-                    //1-lee del buffer, 2-Desde 0, 3-nb: numero de bytes
-                    Double probabilidad = Math.random();
-                    if(probabilidad<=0.3){
-                        if(nb < 254) nb++;
-                        
-                    }else{
-                        
-                    }
-//                    Random r = new Random();
-//                    r.nextBoolean();
-                    
-                    os.write(nb);
-                   
-                }
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        char[] charArray = br.readLine().toCharArray();
+        
+        for(int i=0; i<charArray.length; i++){
+            b[i] = (int)(charArray[i]);
         }
+        for(int i : b){
+            if(i==49)
+                i=1;
+            else if(i==48)
+                i=0;
+        }
+        Double errorByte = Math.random();
+        Random rnd = new Random();
+        int index = rnd.nextInt(TAM_BYTE);
+        if(errorByte<PROB_ERR){
+            if(b[index]==49)
+                b[index]=48;
+            else if(b[index]==48)
+                b[index]=49;
+        }
+        
+        for(int i=0; i<b.length; i++){
+            charArray[i] = (char)(b[i]);
+        }
+        
+        System.out.println(new String(charArray));
+        
     }
-} 
-       // os.write(baos.toByteArray());
-//        do{
-//            
-//            holla=br.readLine();
-//            System.out.println(holla);
-//        
-//        }while(!holla.equals("//"));        
-//    }
-    
-
+}
