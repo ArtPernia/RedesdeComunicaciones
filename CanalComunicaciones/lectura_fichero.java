@@ -24,7 +24,7 @@ public class JavaApplication6 {
                     System.out.println("hilo pausado");
                 }else if (controlador.equals("s")){
                      System.out.println("programa cerrado");
-                    break;
+                    System.exit(0);
                 }
                 controlador = sc1.next();
             }
