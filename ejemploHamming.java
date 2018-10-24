@@ -4,7 +4,7 @@ class DanHamming {
 
     public static void main(String arg[]) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter the 7-bit data code");
+        System.out.println("Enter the 8-bit data code");
         int d[] = new int[8];
         for (int i = 0; i < 8; i++) {
             d[i] = sc.nextInt();
@@ -15,7 +15,7 @@ class DanHamming {
         p[2] = d[1] ^ d[2] ^ d[3];
         p[3] = d[4] ^ d[5] ^ d[6] ^ d[7];
 
-        int c[] = new int[11];
+        int c[] = new int[12];
         System.out.println("Complete Code Word is ");
 
         c[0] = p[0];
@@ -32,8 +32,7 @@ class DanHamming {
         c[11] = d[7];
 
         for (int i = 0; i < 12; i++) {
-            System.out.print(c[i]
-                    + "");
+            System.out.print(c[i] + "");
         }
         System.out.println();
         System.out.println("Enter the Received codeword");
