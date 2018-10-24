@@ -19,10 +19,10 @@ public class hilo extends Thread {
             while(carac != -1){
                 
                 char caracter = (char) carac;
-                System.out.println(caracter);
+                System.out.print(caracter);
                 carac = f1.read();
                 try {
-                    Thread.sleep(5);
+                    Thread.sleep(500);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(hilo.class.getName()).log(Level.SEVERE, null, ex);
                 }
