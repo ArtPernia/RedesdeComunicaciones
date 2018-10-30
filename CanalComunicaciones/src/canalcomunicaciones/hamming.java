@@ -1,12 +1,14 @@
+package canalcomunicaciones;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.*;
 
 class DanHamming {
+    
 
     public static void main(String arg[]) throws IOException {
         /**/
@@ -17,19 +19,26 @@ class DanHamming {
             int nb;
             char[] bufferChar = new char[2];
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-            br.read(bufferChar, 0, 2);
-        } catch {
-                        System.out.println("Error: " + ex.toString());
-                    }
+            br.read(bufferChar, 0, 1);
+            while (is.available() > 0) {
+                nb = is.read(buffer);
+                if (nb > 0) {
+                    //1er Arg el buffer, el 2 desde donde empiezo a leer, 2 cuantos bytes leo
+                    baos.write(buffer, 0, nb);
+                }
+            }             
+        } catch (IOException ex){
+            System.out.println("Error de lectura: " + ex.getMessage());
+        }
 
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Introduce el codigo de 8 bits");
-            int d[] = new int[8];
+           // Scanner sc = new Scanner(System.in);
+           //System.out.println("Introduce el codigo de 8 bits");
+        int d[] = new int[8];
 
             /*Entrada de datos*/
- /* for (int i = 0; i < 8; i++) {
+        /* for (int i = 0; i < 8; i++) {
             d[i] = sc.nextInt();
         }*/
 
@@ -41,7 +50,7 @@ class DanHamming {
             p[3] = d[4] ^ d[5] ^ d[6] ^ d[7];
 
             int c[] = new int[12];
-            System.out.println("Complet code word: ");
+            System.out.println("Codigo hamming con los bits de control, ya codificada: ");
 
             c[0] = p[0];
             c[1] = p[1];
@@ -61,10 +70,15 @@ class DanHamming {
                 System.out.print(c[i] + "");
             }
             System.out.println();
+            
+            
+            
 
             /*Lectura y correccion*/
             System.out.println("Enter the Received codeword");
             int r[] = new int[12];
+            
+            
             for (int i = 0; i < 12; i++) {
                 r[i] = sc.nextInt();
             }
