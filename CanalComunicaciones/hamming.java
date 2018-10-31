@@ -17,24 +17,27 @@ class DanHamming {
             InputStream is = System.in;
             OutputStream os = System.out;
             int caracter_leido;
-            int caracter_previo;
-            int [] carcateres_recibidos = new int [2];
+            int caracter_previo = 0;
+          
             int [] caracteres_enviados = new int [3];
             set0(caracteres_enviados);
-            set0(carcateres_recibidos);
-            int flag = 0;
+            int flag = 1;
             
             
             while ((caracter_leido= is.read()) != -1) {
                 
-                if(flag == 1){
+                if(flag == 2){
                     //logica aqui
-                    procesar_doscaracteres(carcateres_previo, caracter_leido);
+                    procesar_doscaracteres(caracter_previo, caracter_leido);
+                    if(vacio(caracteres_enviados)){
+                        
+                    }
                     
                     flag = 0;
                 }else{
-                    flag = 1;
+                    flag++;
                 }
+               
                 caracter_previo = caracter_leido; 
            
             }
@@ -149,7 +152,25 @@ class DanHamming {
     }
     
     private static int [] procesar_doscaracteres(int leido,int previo){
-        //procesar los dos caracteres y enviar un array de 24 bits 
-        return ;
+
+        return concatenateCode(codigoHamming(previo),codigoHamming(leido)) ;
     }
+    
+    private static int[] concatenateCode (int a[], int b[]){  
+        int [] c = new int [a.length + b.length];
+        set0(c);
+        for(int i = 0; i <= a.length; i++){
+            c[i] = a[i];
+            c[i+a.length] = b[i];
+        }
+        return c;
+    }
+    
+    private static int[] binaryToDecimal (int a[]){
+      /*convertir un array de 24 bits a 3 numeros de tipo int*/
+        return 
+    }
+    
+    
 }/*END CLASS*/
+
