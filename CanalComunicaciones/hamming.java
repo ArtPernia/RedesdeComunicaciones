@@ -9,31 +9,46 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.*;
 
-class Hamming {
+class DanHamming {
 
     public static void main(String arg[]) throws IOException {
         /**/
         try {
             InputStream is = System.in;
             OutputStream os = System.out;
-            byte[] buffer = new byte[64];
-            int nb;
-            char[] bufferChar = new char[2];
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            br.read(bufferChar, 0, 1);
+            int caracter_leido;
+            int caracter_previo;
+            int [] carcateres_recibidos = new int [2];
+            int [] caracteres_enviados = new int [3];
+            set0(caracteres_enviados);
+            set0(carcateres_recibidos);
+            int flag = 0;
+            
+            
+            while ((caracter_leido= is.read()) != -1) {
+                
+                if(flag == 1){
+                    //logica aqui
+                    procesar_doscaracteres(carcateres_previo, caracter_leido);
                     
-            while (is.available() > 0) {
-                nb = is.read(buffer);
-                if (nb > 0) {
-                    //1er Arg el buffer, el 2 desde donde empiezo a leer, 3 cuantos bytes leo
-                    baos.write(buffer, 0, nb);
+                    flag = 0;
+                }else{
+                    flag = 1;
                 }
+                caracter_previo = caracter_leido; 
+           
             }
+            
+            
+            
+//            }
         } catch (Exception ex) {
             System.out.println("Error: " + ex.toString());
         }
 
+        
+        
+        
         /*Lectura y correccion*/
         System.out.println("Enter the Received codeword");
         int r[] = new int[12];
@@ -118,4 +133,23 @@ class Hamming {
         return c;
     }
     
+    public static  boolean vacio (int a[] ){// devuelve true si array vacio
+        for  (int i = 0; i <=  a.length; i++){
+            if(a[i] == -1 ){
+                return true;
+            }
+        }        
+        return false;
+    }
+    
+    public static void set0 (int a []){ 
+        for (int i = 0; i<= a.length; i++){
+            a[i] = -1;
+        }   
+    }
+    
+    private static int [] procesar_doscaracteres(int leido,int previo){
+        //procesar los dos caracteres y enviar un array de 24 bits 
+        return ;
+    }
 }/*END CLASS*/
