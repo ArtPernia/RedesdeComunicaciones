@@ -1,7 +1,6 @@
 package canalcomunicaciones;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -50,28 +49,20 @@ public class decoHamming {
     
     public static int[] decodificar(int numero){
 
-        boolean r[] = new boolean[12];
+        int r[];
 
-        leerPosicion(numero, 0) = r[0];
+        r = crearArray(numero);
         
+       
+            
+            
         
-        numero[1] = r[1];
-        rd[0] = r[2];
-        pr[2] = r[3];
-        rd[1] = r[4];
-        rd[2] = r[5];
-        rd[3] = r[6];
-        pr[3] = r[7];
-        rd[4] = r[8];
-        rd[5] = r[9];
-        rd[6] = r[10];
-        rd[7] = r[11];
         
         int s[] = new int[4];
-        s[0] = pr[0] ^ rd[0] ^ rd[1] ^ rd[3] ^ rd[4] ^ rd[6];
-        s[1] = pr[1] ^ rd[0] ^ rd[2] ^ rd[3] ^ rd[5] ^ rd[6];
-        s[2] = pr[2] ^ rd[1] ^ rd[2] ^ rd[3];
-        s[3] = pr[3] ^ rd[4] ^ rd[5] ^ rd[6] ^ rd[7];
+        s[0] = r[0] ^ r[2] ^ r[4] ^ r[6] ^ r[8] ^ r[10];
+        s[1] = r[1] ^ r[2] ^ r[5] ^ r[6] ^ r[9] ^ r[10];
+        s[2] = r[3] ^ r[4] ^ r[5] ^ r[6];
+        s[3] = r[7] ^ r[8] ^ r[9] ^ r[10] ^ r[11];
 
         int dec = (s[0] * 1) + (s[1] * 2) + (s[2] * 4) + (s[3] * 8);
         if (dec == 0) {
@@ -79,9 +70,11 @@ public class decoHamming {
         } else {
             System.out.println("El error esta en: " + dec);
             if (r[dec - 1] == 0) {
-                r[dec - 1] = 717;
+                r[dec - 1] = 1;
+                //r[dec - 1] = 717;
             } else {
-                r[dec - 1] = 707;
+                r[dec - 1] = 0;
+               // r[dec - 1] = 707;
             }
             System.out.println("Hamming correcto : ");
             for (int i = 0; i < 12; i++) {
@@ -89,6 +82,7 @@ public class decoHamming {
             }
             System.out.println();
         }
+        
         int solucion[]= new int[8];
         solucion[0]=r[2];
         solucion[1]=r[4];
@@ -103,9 +97,24 @@ public class decoHamming {
         return solucion;
     }
     
-    public static boolean leerPosicion(int numero, int pos){
+    public static int[] crearArray (int numero)  {
         
-        return ((1<<pos)^numero)>0;
+        String temp = Integer.toString(numero);
+        String temp2;
+        int temp3;
+        int [] array = new int[temp.length()];
+        
+        for(int i=0;i<=temp.length();i++) {
+            if (i!=temp.length()) {
+                temp2 = temp.substring(i, i+1);
+            } else {
+                temp2 = temp.substring(i);
+            }
+            temp3 =  Integer.parseInt(temp2);    
+            array[i] = temp3;
+        }
+        
+        return array;
     }
 }
         
