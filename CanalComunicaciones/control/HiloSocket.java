@@ -15,7 +15,7 @@ public class HiloSocket extends Thread{
     public void run(){
         
         try{
-        Socket cliente = new Socket("127.0.0.1",6969);
+        Socket cliente = new Socket("172.20.2.182",6969);
         OutputStream os = cliente.getOutputStream();
             
             os.write(caracter);
@@ -25,4 +25,3 @@ public class HiloSocket extends Thread{
         }
     }
 }
-

@@ -5,7 +5,6 @@
  */
 package control;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,15 +13,16 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.Charset;
 
-public class Server {
-
-
+public class Server { 
+    
     public static void main(String[] args) throws IOException {
+       
         ServerSocket server = null;
         
         try{            
         server = new ServerSocket(6969);
-        System.out.println("Escuchando...");                              
+        while(true){
+        //ystem.out.println("Escuchando...");                             
         Socket cliente = server.accept(); 
         
             InputStream is = cliente.getInputStream(); 
@@ -41,10 +41,10 @@ public class Server {
                 }
             }
             String mensaje = new String (baos.toByteArray(), Charset.forName("UTF-8"));
-            System.out.println("El mensaje en el servidor es: " + mensaje);
-            
+            System.out.print(mensaje);
+         
             os.close();            
-                                         
+         }                                
         }catch(Exception ex){
             System.out.println("Error: " + ex.toString());
         }
