@@ -9,13 +9,18 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.*;
 
+<<<<<<< HEAD
 class DanHamming {
+=======
+class Hamming {
+>>>>>>> parent of 9c5c3d8... a tomar viento
 
     public static void main(String arg[]) throws IOException {
         /**/
         try {
             InputStream is = System.in;
             OutputStream os = System.out;
+<<<<<<< HEAD
             int caracter_leido;
             int caracter_previo = 0;
           
@@ -45,13 +50,32 @@ class DanHamming {
             
             
 //            }
+=======
+            byte[] buffer = new byte[64];
+            int nb;
+            char[] bufferChar = new char[2];
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            br.read(bufferChar, 0, 1);
+                    
+            while (is.available() > 0) {
+                nb = is.read(buffer);
+                if (nb > 0) {
+                    //1er Arg el buffer, el 2 desde donde empiezo a leer, 3 cuantos bytes leo
+                    baos.write(buffer, 0, nb);
+                }
+            }
+>>>>>>> parent of 9c5c3d8... a tomar viento
         } catch (Exception ex) {
             System.out.println("Error: " + ex.toString());
         }
 
+<<<<<<< HEAD
         
         
         
+=======
+>>>>>>> parent of 9c5c3d8... a tomar viento
         /*Lectura y correccion*/
         System.out.println("Enter the Received codeword");
         int r[] = new int[12];
@@ -136,6 +160,7 @@ class DanHamming {
         return c;
     }
     
+<<<<<<< HEAD
     public static  boolean vacio (int a[] ){// devuelve true si array vacio
         for  (int i = 0; i <=  a.length; i++){
             if(a[i] == -1 ){
@@ -174,3 +199,6 @@ class DanHamming {
     
 }/*END CLASS*/
 
+=======
+}/*END CLASS*/
+>>>>>>> parent of 9c5c3d8... a tomar viento
