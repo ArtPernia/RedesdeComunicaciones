@@ -6,10 +6,10 @@ import java.util.Random;
 
 public class PruebasSinSockets {
     
-    public static double PROB_ERR_BIT = 0.05;
+    public static double PROB_ERR_BIT = 0.2;
     public static double PROB_ERR_DESP = 0.75;
     public static int TAM_BYTE = 8;
-    public static void main(String[] args) throws IOException, Exception{
+    public static void main(String[] args) throws Exception{
         InputStream in = System.in;
         int carac[] = new int[2];
         Random rnd = new Random();
