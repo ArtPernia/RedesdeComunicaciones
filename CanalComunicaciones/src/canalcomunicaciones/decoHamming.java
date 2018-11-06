@@ -5,15 +5,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class decoHamming {
     
     public static void main(String arg[]) throws IOException {
-  
+        
+        ServerSocket server = null;
+        int puerto = 6969;
         try{
-            InputStream is = System.in;
-            OutputStream os = System.out;
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            server = new ServerSocket(puerto);
+            System.out.println("Escuchando...");                              
+            Socket cliente = server.accept(); 
+        
+            InputStream is = cliente.getInputStream(); 
+            OutputStream os = cliente.getOutputStream(); 
+            
             int aprocesar[] = new int[3];
             int cont=0;
             
@@ -22,7 +32,7 @@ public class decoHamming {
                 aprocesar[2]=aprocesar[1];
                 
                 if (cont==2){
-                    procesar(aprocesar);
+                    procesar(aprocesar, os);
                     cont=0;
                 }
                 cont++;
@@ -33,32 +43,43 @@ public class decoHamming {
         }   
     }
             
-    public static void procesar (int numero[]){
+    public static void procesar (int numero[], OutputStream os){
         
         int procesado[] = new int[2];
         
         procesado[1]=(numero[1] << 4) + (numero[2] >> 4);
         System.out.println("X =" + procesado[1]);
-        decodificar(procesado[1]);
+        int solucion = decodificar(procesado[1]);
+        
+        try {
+            os.write(solucion);
+        } catch (IOException ex) {
+            Logger.getLogger(decoHamming.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("ERROR AL ENVIAR EL PRIMER NUMERO: "+ ex.getMessage());
+        }
         
         procesado[2]=((numero[2] & 15) << 8) + numero[3];
         System.out.println("Y=" + procesado[2]);
+        int solucion2 = decodificar(procesado[2]);
+        
+        try {
+            os.write(solucion2);
+        } catch (IOException ex) {
+            Logger.getLogger(decoHamming.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("ERROR AL ENVIAR EL SEGUNDO NUMERO: "+ ex.getMessage());
+        }
         
         
     }
     
-    public static int[] decodificar(int numero){
+    public static int decodificar(int numero){
 
         int r[];
 
         r = crearArray(numero);
         
-       
-            
-            
-        
-        
         int s[] = new int[4];
+//editar esto en un momento
         s[0] = r[0] ^ r[2] ^ r[4] ^ r[6] ^ r[8] ^ r[10];
         s[1] = r[1] ^ r[2] ^ r[5] ^ r[6] ^ r[9] ^ r[10];
         s[2] = r[3] ^ r[4] ^ r[5] ^ r[6];
@@ -93,8 +114,13 @@ public class decoHamming {
         solucion[6]=r[10];
         solucion[7]=r[11];
         
+        int x=0;
+        for (int i=0;i<=7;i++){
+            x = x+(solucion[i]<<i);
+        }
+        
         System.out.println("SOLUCION: " + solucion);
-        return solucion;
+        return x;
     }
     
     public static int[] crearArray (int numero)  {
