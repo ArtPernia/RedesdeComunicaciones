@@ -1,9 +1,7 @@
 package canalcomunicaciones;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -80,29 +78,63 @@ public class decoHamming {
         
         int s[] = new int[4];
 //editar esto en un momento
-        s[0] = r[0] ^ r[2] ^ r[4] ^ r[6] ^ r[8] ^ r[10];
-        s[1] = r[1] ^ r[2] ^ r[5] ^ r[6] ^ r[9] ^ r[10];
-        s[2] = r[3] ^ r[4] ^ r[5] ^ r[6];
-        s[3] = r[7] ^ r[8] ^ r[9] ^ r[10] ^ r[11];
+        s[0] = r[2] ^ r[4] ^ r[5] ^ r[6] ^ r[8] ^ r[9] ^ r[10] ^ r[11];
+        s[1] = r[2] ^ r[4] ^ r[5] ^ r[6];
+        s[2] = r[2] ^ r[4] ^ r[8] ^ r[9];
+        s[3] = r[2] ^ r[5] ^ r[8] ^ r[10];
 
-        int dec = (s[0] * 1) + (s[1] * 2) + (s[2] * 4) + (s[3] * 8);
-        if (dec == 0) {
-            System.out.println("Sin error");
-        } else {
-            System.out.println("El error esta en: " + dec);
-            if (r[dec - 1] == 0) {
-                r[dec - 1] = 1;
-                //r[dec - 1] = 717;
-            } else {
-                r[dec - 1] = 0;
-               // r[dec - 1] = 707;
-            }
-            System.out.println("Hamming correcto : ");
-            for (int i = 0; i < 12; i++) {
-                System.out.print(r[i] + " ");
-            }
-            System.out.println();
+        int x=0;
+        for (int i=0;i<=3;i++){
+            x = x+(s[i]<<i);
+            //
+            System.out.println(x);
+            //
         }
+        
+        if (x == 1000){
+            System.out.println("TENEMOS UN ERROR");
+            if (x == 1111){
+                System.out.println("ERROR en la posicion 1");
+            }else if (x == 1110){
+                System.out.println("ERROR en la posicion 2");
+            }else if (x == 1101){
+                System.out.println("ERROR en la posicion 3");
+            }else if (x == 1100){
+                System.out.println("ERROR en la posicion 4");
+            }else if (x == 1011){
+                System.out.println("ERROR en la posicion 5");
+            }else if (x == 1010){
+                System.out.println("ERROR en la posicion 6");
+            }else if (x == 1001){
+                System.out.println("ERROR en la posicion 7");
+            }else {
+                System.out.println("ERROR en la posicion 8");
+            }
+        }
+        
+        
+        
+        
+        
+        
+//        int dec = (s[0] * 1) + (s[1] * 2) + (s[2] * 4) + (s[3] * 8);
+//        if (dec == 0) {
+//            System.out.println("Sin error");
+//        } else {
+//            System.out.println("El error esta en: " + dec);
+//            if (r[dec - 1] == 0) {
+//                r[dec - 1] = 1;
+//                //r[dec - 1] = 717;
+//            } else {
+//                r[dec - 1] = 0;
+//               // r[dec - 1] = 707;
+//            }
+//            System.out.println("Hamming correcto : ");
+//            for (int i = 0; i < 12; i++) {
+//                System.out.print(r[i] + " ");
+//            }
+//            System.out.println();
+//        }
         
         int solucion[]= new int[8];
         solucion[0]=r[2];
@@ -114,13 +146,13 @@ public class decoHamming {
         solucion[6]=r[10];
         solucion[7]=r[11];
         
-        int x=0;
+        int y=0;
         for (int i=0;i<=7;i++){
-            x = x+(solucion[i]<<i);
+            y = y+(solucion[i]<<i);
         }
         
-        System.out.println("SOLUCION: " + solucion);
-        return x;
+        System.out.println("SOLUCION: " + y);
+        return y;
     }
     
     public static int[] crearArray (int numero)  {
