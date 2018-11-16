@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Control {
 
     public static void main(String[] args) throws IOException {
-        
+                
             Lectura h1 = new Lectura();
             String controlador= "";
             Scanner sc1 = new Scanner(System.in);
