@@ -93,7 +93,7 @@ public static double PROB_ERR_DESP = 0.75;
             
             for(int c : carac){
                 System.out.println("O:" + (char)c + ":" + c + ":" + Integer.toBinaryString(c));
-                baos.write(c);
+                out.write(c);
             }
             carac = readTwoBytes(in);
             for(int c : carac){
@@ -101,7 +101,7 @@ public static double PROB_ERR_DESP = 0.75;
                     salir=true;
             }
         }
-            outSalida.write(baos.toByteArray());
+            //outSalida.write(baos.toByteArray());
         s.close();
         ss.close();
         sSalida.close();

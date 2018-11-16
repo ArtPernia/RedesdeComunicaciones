@@ -16,7 +16,7 @@ import java.net.Socket;
  * @author gseno
  */
 public class PruebaConexionEnvio {
-    public static void main(String args[]) throws IOException{
+    public static void main(String args[]) throws IOException, InterruptedException{
         
         int puerto = 6969;
         String ipaddr = "localhost";
@@ -27,7 +27,9 @@ public class PruebaConexionEnvio {
         String cadena = "qwertyqwerty";
         
         
-        out.write(cadena.getBytes());
+        for(int c : cadena.getBytes()){
+            out.write(c);
+        }
 //        out.flush();
 //        out.close();
         System.out.println("THE END");
