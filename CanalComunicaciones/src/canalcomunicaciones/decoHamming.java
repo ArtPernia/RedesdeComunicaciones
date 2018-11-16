@@ -82,7 +82,8 @@ public class decoHamming {
         s[1] = r[2] ^ r[4] ^ r[5] ^ r[6];
         s[2] = r[2] ^ r[4] ^ r[8] ^ r[9];
         s[3] = r[2] ^ r[5] ^ r[8] ^ r[10];
-
+        
+        //lo pasamos de un array a un int
         int x=0;
         for (int i=0;i<=3;i++){
             x = x+(s[i]<<i);
@@ -91,6 +92,7 @@ public class decoHamming {
             //
         }
         
+        //comprobamos los errores pero no los corregimos
         if (x == 1000){
             System.out.println("TENEMOS UN ERROR");
             if (x == 1111){
@@ -112,30 +114,6 @@ public class decoHamming {
             }
         }
         
-        
-        
-        
-        
-        
-//        int dec = (s[0] * 1) + (s[1] * 2) + (s[2] * 4) + (s[3] * 8);
-//        if (dec == 0) {
-//            System.out.println("Sin error");
-//        } else {
-//            System.out.println("El error esta en: " + dec);
-//            if (r[dec - 1] == 0) {
-//                r[dec - 1] = 1;
-//                //r[dec - 1] = 717;
-//            } else {
-//                r[dec - 1] = 0;
-//               // r[dec - 1] = 707;
-//            }
-//            System.out.println("Hamming correcto : ");
-//            for (int i = 0; i < 12; i++) {
-//                System.out.print(r[i] + " ");
-//            }
-//            System.out.println();
-//        }
-        
         int solucion[]= new int[8];
         solucion[0]=r[2];
         solucion[1]=r[4];
@@ -146,6 +124,7 @@ public class decoHamming {
         solucion[6]=r[10];
         solucion[7]=r[11];
         
+        //pasamos la solucion de un array a un int
         int y=0;
         for (int i=0;i<=7;i++){
             y = y+(solucion[i]<<i);
