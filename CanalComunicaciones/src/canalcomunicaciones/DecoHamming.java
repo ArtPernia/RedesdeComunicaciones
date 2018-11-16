@@ -1,35 +1,28 @@
 package canalcomunicaciones;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
 
 public class DecoHamming {
     
     public static void main(String arg[]) throws IOException {
         
-        ServerSocket server = null;
-        int puerto = 6969;
-        try{
-            server = new ServerSocket(puerto);
-            System.out.println("Escuchando...");                              
-            Socket cliente = server.accept(); 
         
-            InputStream is = cliente.getInputStream(); 
-            OutputStream os = cliente.getOutputStream(); 
+        try{
+            ServidorSocket ss = new ServidorSocket (6969);
+            ClienteSocket cs = new ClienteSocket("170.20.4.247", 6969);
             
             int aprocesar[] = new int[3];
-            
-            aprocesar[0]=is.read();
-            aprocesar[1]=is.read();
-            aprocesar[2]=is.read();
-            
-            int respuesta[]= procesar(aprocesar);
-            
-            os.write(respuesta[0]);
-            os.write(respuesta[1]);
+            int respuesta[];
+            while (true){
+                aprocesar[0]=ss.leer();
+                aprocesar[1]=ss.leer();
+                aprocesar[2]=ss.leer();
+
+                respuesta = procesar(aprocesar);
+
+                cs.escribir(respuesta[0]);
+                cs.escribir(respuesta[1]);
+            }
             
         } catch (IOException ex){
             System.out.println("Problema al abrir canales de comunicacion:" +ex.getMessage());
