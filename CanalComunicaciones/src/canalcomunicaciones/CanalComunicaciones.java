@@ -22,10 +22,11 @@ public static double PROB_ERR_DESP = 0.75;
 //        }
         int portIn = 6969;
         int portOut = 6999;        
-        String ipSalida = "localhost";
+        String ipSalida = "170.20.4.247";
         Socket s = null;
         Socket sSalida = new Socket(ipSalida, portOut);
         ServerSocket ss = new ServerSocket(portIn);
+        
         s = ss.accept();
         
         OutputStream out = s.getOutputStream();
