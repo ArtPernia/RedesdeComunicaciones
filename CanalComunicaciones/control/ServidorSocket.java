@@ -32,32 +32,30 @@ public class ServidorSocket {
             is = cliente.getInputStream(); 
             os = cliente.getOutputStream();
             
-        leer();       
+        byte [] buffer = new byte[1024];
+            int nb = -1;
+            
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         }                                
         }catch(Exception ex){
             System.out.println("Error: " + ex.toString());
         }
     }
     
-    public void leer() throws IOException{
-        byte [] buffer = new byte[1024];
-            int nb = -1;
+    public int leer() throws IOException{
+        
+        while(is.available()>0){
+                return is.read();
+        }
+        return -1;
+    }
             
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            String mensaje = new String (baos.toByteArray(), Charset.forName("UTF-8"));
+//            System.out.print(mensaje);
             
-            while(is.available()>0){
-                nb = is.read(buffer);
-                
-                if(nb>0){
-                    baos.write(buffer, 0, nb); 
-                }
-            }
-            
-            String mensaje = new String (baos.toByteArray(), Charset.forName("UTF-8"));
-            System.out.print(mensaje);
-            
-         
-            os.close(); 
+     
+    public void desconectar() throws IOException{
+        os.close();
     }
     
 }
