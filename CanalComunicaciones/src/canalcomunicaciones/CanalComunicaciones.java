@@ -16,21 +16,22 @@ public static double PROB_ERR_DESP = 0.75;
     // args[0] = Puerto de Entrada | args[1] = PuertoSalida | args[2] = IP Salida
     public static void main(String[] args) throws IOException, Exception{
         
-        if(args.length<3){
-            System.out.println("Argumentos invalidos\n");
-            System.exit(-1);
-        }
-        int portIn = Integer.parseInt(args[0]);
-        int portOut = Integer.parseInt(args[1]);        
-        String ipSalida = args[2];
+//        if(args.length<3){
+//            System.out.println("Argumentos invalidos\n");
+//            System.exit(-1);
+//        }
+        int portIn = 6969;
+        int portOut = 6999;        
+        String ipSalida = "localhost";
         Socket s = null;
         Socket sSalida = new Socket(ipSalida, portOut);
         ServerSocket ss = new ServerSocket(portIn);
         s = ss.accept();
         
-        ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
-        ObjectInputStream in = new ObjectInputStream(s.getInputStream());
-        ObjectOutputStream outSalida = new ObjectOutputStream(sSalida.getOutputStream());
+        OutputStream out = s.getOutputStream();
+        InputStream in = s.getInputStream();
+        OutputStream outSalida = sSalida.getOutputStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         //int carac;
         int carac[] = new int[2];
         Random rnd = new Random();
@@ -52,14 +53,11 @@ public static double PROB_ERR_DESP = 0.75;
 //            //System.out.println("O:" + (char)carac+":" + carac + ":" + Integer.toBinaryString(carac));
 //            outSalida.writeObject(carac);
 //        }
-        while( !salir ){
             
             System.out.println("----------------------------------------------");
-            for(int i=0; i<carac.length; i++){
-                carac[i] = in.read();
-                if(carac[i] == 38 )
-                    salir = true;
-            }
+            carac = readTwoBytes(in);
+        while( !salir ){
+            System.out.println("----------------------------------------------");
             
             for(int c : carac)
                 System.out.println("I:" + (char)c + ":" + c + ":" + Integer.toBinaryString(c));
@@ -95,9 +93,32 @@ public static double PROB_ERR_DESP = 0.75;
             
             for(int c : carac){
                 System.out.println("O:" + (char)c + ":" + c + ":" + Integer.toBinaryString(c));
-                outSalida.writeObject((char)c);
+                out.write(c);
             }
-            
+            carac = readTwoBytes(in);
+            for(int c : carac){
+                if(c == -1)
+                    salir=true;
+            }
         }
+            //outSalida.write(baos.toByteArray());
+        s.close();
+        ss.close();
+        sSalida.close();
     }
+        private static int[] readTwoBytes(InputStream in) throws IOException{
+            int[] carac = new int[2];
+            int nb = -1;
+            for(int i=0; i<carac.length; i++){
+                nb = in.read();
+               if(nb == -1 ){
+                   carac[i] = nb;
+                   return carac;
+               }else{
+                   carac[i] = nb;
+               }
+            }
+            return carac;
+        }
+    
 }
