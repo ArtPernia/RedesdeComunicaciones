@@ -1,80 +1,53 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package guardarinformacion;
-import java.io.BufferedReader;
- import java.io.BufferedWriter;
-import java.io.FileWriter;
+package control;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
- public class GuardarInformacion {
- private static final String FILENAME = "C:\\Users\\victor\\Documents\\datos.txt";
- public static void main(String[] args) throws Exception {
- try {
-     int puerto=Integer.parseInt(args[0]);
-     
-     ServerSocket ss = new ServerSocket(puerto);
-     Socket s = ss.accept();
-     
-     ObjectOutputStream salida = new ObjectOutputStream(s.getOutputStream());
-     ObjectInputStream entrada = new ObjectInputStream(s.getInputStream());
-     
-     
-     
-     
-     BufferedWriter bw = null;
-     FileWriter fw = null;
-     BufferedReader br = null;
-     try {
+import java.nio.charset.Charset;
+
+public class Control { 
+    
+    public static void main(String[] args) throws IOException {
+       
+        ServerSocket server = null;
+        
+        try{            
+        server = new ServerSocket(6999);
+        while(true){
+        //ystem.out.println("Escuchando...");                             
+        Socket cliente = server.accept(); 
+        
+            InputStream is = cliente.getInputStream(); 
+            OutputStream os = cliente.getOutputStream(); 
+            
+            byte [] buffer = new byte[1024];
+            int nb = -1;
+            
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            
+            while(is.available()>0){
+                nb = is.read(buffer, 0, buffer.length);
+                
+                if(nb>0){
+                    baos.write(buffer); 
+                    
+                    baos.flush();
+                }
+            }
+            String mensaje = new String (baos.toByteArray(), Charset.forName("UTF-8"));
+            
+            System.out.print(mensaje);
          
-         fw = new FileWriter(FILENAME);
-         bw = new BufferedWriter(fw);
-         
-         int ch;
-         
-         while((ch= (int)entrada.readObject())!=1){
-             if(ch !='%' ){
-                 bw.write(ch);
-                 bw.flush();
-                 processChar((char)ch);
-                 
-             }else{
-                 bw.close();
-                 fw.close();
-                 
-             }
-             
-         }
-         
-         
-         
-     } catch (IOException e) {
-         e.printStackTrace();
-     } finally {
-         try {
-             if (bw != null)
-                 bw.close();
-             if (fw != null)
-                 fw.close();
-         } catch (IOException ex) {
-             ex.printStackTrace();
-         }
-     }
- } catch (IOException ex) {
-         Logger.getLogger(GuardarInformacion.class.getName()).log(Level.SEVERE, null, ex);
- }
- }
- private static void processChar(char c) throws IOException{
-    System.out.println("Procesando:" +c);
- }
- 
- }
+            os.close();            
+         }                                
+        }catch(Exception ex){
+            System.out.println("Error: " + ex.toString());
+        }
+        
+       
+    }
+    
+}
