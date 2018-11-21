@@ -9,7 +9,7 @@ public class DecoHamming {
         
         try{
             ServidorSocket ss = new ServidorSocket (6969);
-            ClienteSocket cs = new ClienteSocket("170.20.4.247", 6969);
+            ClienteSocket cs = new ClienteSocket("170.20.1.252", 6969);
             
             int aprocesar[] = new int[3];
             int respuesta[];
