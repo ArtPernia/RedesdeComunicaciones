@@ -1,3 +1,17 @@
+/**
+    Esta clase se encarga de recibir un mensaje codificado el cual puede o no tener un error.
+    Su funcion principal, como su nombre indica, es la de decodificar el mensaje comprobando
+    si tiene errores, en el caso de que tenga errores, se corigen. Solo podemos detectar y
+    corregir errores de un bit.
+    Utiliza las clases servicorSocket y clienteSocket para comunicarse y establecer las
+    conexiones con los otros equipos.
+    
+    @author Alejandro Maestro Jimenez
+    @author Arturo Gomez Pernia
+
+*/
+
+
 package canalcomunicaciones;
 
 import java.io.IOException;
